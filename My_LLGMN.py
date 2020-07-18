@@ -15,7 +15,6 @@ class My_LLGMN():
         self.n_component = n_component
         self.h = int(1 + input_dim * (input_dim + 3) / 2)
 
-
     def build_network(self):
         main_input = Input(shape=(self.h,), dtype="float32", name="main_input")
 
@@ -32,7 +31,8 @@ class My_LLGMN():
         layer.trainable = False
         main_output = layer(middle_layer2)
 
-        self.model = Model(inputs=[main_input, auxiliary_input], outputs=[main_output])
+        self.model = Model(
+            inputs=[main_input, auxiliary_input], outputs=[main_output])
 
         self.model.summary()
 
@@ -46,11 +46,9 @@ class My_LLGMN():
         weights[1] = w2
         self.model.set_weights(weights=weights)
 
-
     def convert_labels(self, labels):
         labels = labels.astype(int)
         return to_categorical(labels, self.n_class)
-
 
     def nonlinear_transform(self, data):
         d = data.copy()
@@ -63,7 +61,6 @@ class My_LLGMN():
         d = np.hstack([d, tmp.T[:, 1:]])
         return d
 
-
     def learn(
         self, x_train, y_train, is_mini_batch=False, n_batch_size=128, n_epoch=30
     ):
@@ -72,7 +69,7 @@ class My_LLGMN():
         nonlinear_x_train = self.nonlinear_transform(x_train)
         aux_train = np.zeros([x_train.shape[0], 1])
         y_train = self.convert_labels(y_train)
-        
+
         sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 
         # 2クラス or 多クラス識別でLossを変えている
@@ -103,7 +100,6 @@ class My_LLGMN():
                 batch_size=x_train.shape[1],
                 verbose=1,  # 0:学習過程を非表示，1:表示
             )
-
 
     def predict(self, x_test):
         nonlinear_x_test = self.nonlinear_transform(x_test)

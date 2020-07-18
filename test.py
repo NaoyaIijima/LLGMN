@@ -20,7 +20,8 @@ x_test = np.random.randn(10, d) + 2
 
 my_llgmn = My_LLGMN(n_class=C, input_dim=d, n_component=1)
 my_llgmn.build_network()
-my_llgmn.learn(x_train=x_train, y_train=y_train, is_mini_batch=False, n_epoch=50)
+my_llgmn.learn(x_train=x_train, y_train=y_train,
+               is_mini_batch=False, n_epoch=50)
 pred = my_llgmn.predict(x_test=x_test)
 print(np.argmax(pred, axis=1))
 print(y_train)
