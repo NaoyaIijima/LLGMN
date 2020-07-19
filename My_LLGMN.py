@@ -6,7 +6,6 @@ from keras.utils import to_categorical
 from keras.optimizers import SGD
 from keras import metrics
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class My_LLGMN():
